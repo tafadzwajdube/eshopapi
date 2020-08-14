@@ -21,6 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/register','Api\AuthController@register');
 Route::post('/login','Api\AuthController@login');
+Route::get('/login','Api\AuthController@user')->middleware('auth:api');;
+
 
 Route::post('/password/email','Api\ForgotPasswordController@sendResetLinkEmail');
 
@@ -53,11 +55,19 @@ Route::delete('/category/{id}','Api\CategoryController@destroy')->middleware('au
 
 //stock
 
-Route::get('/stock','Api\StockController@index')->name('stocks.show');
+Route::get('/stocks','Api\StockController@index')->name('stocks.show');
 Route::get('/stock/{id}','Api\StockController@show')->name('stock.show');
 Route::post('/stock','Api\StockController@store')->middleware('auth:api');
 Route::put('/stock/{id}','Api\StockController@update')->middleware('auth:api');
 Route::delete('/stock/{id}','Api\StockController@destroy')->middleware('auth:api');
+
+//damaged_stock
+
+Route::get('/damagedstocks','Api\DamagedStockController@index')->name('damagedstocks.show');
+Route::get('/damagedstock/{id}','Api\DamagedStockController@show')->name('damagedstock.show');
+Route::post('/damagedstock','Api\DamagedStockController@store')->middleware('auth:api');
+Route::put('/damagedstock/{id}','Api\DamagedStockController@update')->middleware('auth:api');
+Route::delete('/damagedstock/{id}','Api\DamagedStockController@destroy')->middleware('auth:api');
 
 //sales
 

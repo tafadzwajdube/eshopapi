@@ -6,7 +6,7 @@ use App\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
 
-class StockResource extends JsonResource
+class DamagedStockResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,15 +16,15 @@ class StockResource extends JsonResource
      */
     public function toArray($request)
     {
-      //  return parent::toArray($request);
-      return[
+       // return parent::toArray($request);
+       return[
 
         "id"=>$this->id,
         "created_by"=>$this->created_by,
         "user_name"=>$this->findUser($this->created_by),
         "date"=>$this->date,
-        "products"=>$this->productstocks,
-        "total"=>$this->getTotal($this->productstocks),
+        "products"=>$this->damagedproducts,
+        "total"=>$this->getTotal($this->damagedproducts),
         "created_at"=>Carbon::parse($this->created_at)->format('d M Y'),
         "updated_at"=>$this->updated_at
      ];

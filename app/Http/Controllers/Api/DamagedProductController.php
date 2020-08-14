@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Brand;
-use App\Http\Resources\BrandResource;
 
-class BrandController extends Controller
+class DamagedProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +15,6 @@ class BrandController extends Controller
     public function index()
     {
         //
-        $brands= Brand::all()->sortBy('product_id');
-        return BrandResource::collection($brands);
-
     }
 
     /**
@@ -31,25 +26,6 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'name'=>"required",
-          //  'contact'=>"required"
-        ]
-        );
-        $brand= new Brand;
-        $brand->product_id=$request->product;
-        $brand->name=$request->name;
-        $brand->price_zim_rand=$request->zim_price_rand;
-        $brand->price_zim_usd=$request->zim_price_usd;
-        $brand->price_sa=$request->sa_price;
-
-        if($brand->save()){
-
-            return new BrandResource($brand);
-
-        }
-        else
-        return(["error"=>"an error occured"]);
     }
 
     /**
@@ -61,8 +37,6 @@ class BrandController extends Controller
     public function show($id)
     {
         //
-        $brand=Brand::findorfail($id);
-        return new BrandResource($brand);
     }
 
     /**
@@ -75,9 +49,6 @@ class BrandController extends Controller
     public function update(Request $request, $id)
     {
         //
-
-
-
     }
 
     /**
@@ -89,10 +60,5 @@ class BrandController extends Controller
     public function destroy($id)
     {
         //
-        $brand=Brand::findorfail($id);
-        if($brand->delete()){
-
-            return new BrandResource($brand);
-        }
     }
 }

@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     //
+public function userx(){
+    return response()->json(['user'=>auth()->user()], 200);
+}
+
+
 
     public function register(Request $request)
     {

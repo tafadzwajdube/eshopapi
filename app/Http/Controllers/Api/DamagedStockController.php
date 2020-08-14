@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Brand;
+use App\DamagedProduct;
+use App\DamagedStock;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ProductStockResource;
-use App\Http\Resources\StockResource;
-use App\ProductStock;
-use App\Stock;
+use App\Http\Resources\DamagedStockResource;
 use Illuminate\Http\Request;
 
-class StockController extends Controller
+class DamagedStockController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,8 +19,8 @@ class StockController extends Controller
     public function index()
     {
         //
-        $stocks= Stock::all();
-        return StockResource::collection($stocks);
+        $damagedstocks= DamagedStock::all();
+        return DamagedStockResource::collection($damagedstocks);
     }
 
     /**
@@ -32,23 +31,23 @@ class StockController extends Controller
      */
     public function store(Request $request)
     {
-        ///*  */
-      $request->validate([
+        //
+        $request->validate([
             'products'=>"required"
           //  'contact'=>"required"
         ]
         );
 
-        $stock= new Stock;
-        $stock->created_by=auth()->user()->id;
-        $stock->date=$request->date;
+        $damagedstock= new DamagedStock;
+        $damagedstock->created_by=auth()->user()->id;
+        $damagedstock->date=$request->date;
         $products=$request->products;
-        if($stock->save()){
+        if($damagedstock->save()){
         foreach($products as $p){
 
-            $product= new ProductStock;
+            $product= new DamagedProduct;
 
-           $product->stock_id=$stock->id;
+           $product->damagedstock_id=$damagedstock->id;
             $product->product_id=$p['product_id'];
             $product->brand_id=$p['brand_id'];
             $product->quantity=$p['quantity'];
@@ -62,16 +61,21 @@ class StockController extends Controller
 
            //     return new ProductStockResource($product); add to stock
 
-           $this->addStock($product->brand_id, $product->quantity);
+           $this->subtractStock($product->brand_id, $product->quantity);
 
             }
         }
-        return new StockResource($stock);
+        return new DamagedStockResource($damagedstock);
     }
         else
 
           return(["error"=>"an error occured"]);
-}
+
+
+
+
+
+    }
 
     /**
      * Display the specified resource.
@@ -82,8 +86,8 @@ class StockController extends Controller
     public function show($id)
     {
         //
-        $stock= Stock::findorfail($id);
-        return new StockResource($stock);
+        $stock= DamagedStock::findorfail($id);
+        return new DamagedStockResource($stock);
     }
 
     /**
@@ -107,15 +111,15 @@ class StockController extends Controller
     public function destroy($id)
     {
         //
-        $stock= Stock::findorfail($id);
+        $stock=   DamagedStock::findorfail($id);
         if($stock->delete())
-        return new StockResource($stock);
+        return new DamagedStockResource($stock);
     }
 
-    public function addStock($id,$q){
+    public function subtractStock($id,$q){
 
         $brand=Brand::findorfail($id);
-        $quantity=$brand->quantity+$q;
+        $quantity=$brand->quantity-$q;
         $brand->quantity=$quantity;
         $brand->save();
     }

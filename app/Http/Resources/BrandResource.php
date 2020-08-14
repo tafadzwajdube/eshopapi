@@ -22,9 +22,9 @@ class BrandResource extends JsonResource
         "product"=>$this->product,
         "name"=>$this->name,
         "quantity"=>$this->quantity,
-        "zim_price_rand"=>$this->zim_price_rand,
-        "zim_price_usd"=>$this->zim_price_usd,
-        "sa_price"=>$this->sa_price,
+        "zim_price_rand"=>$this->price_zim_rand,
+        "zim_price_usd"=>$this->price_zim_usd,
+        "sa_price"=>$this->price_sa,
         "created_at"=>$this->created_at,
         "updated_at"=>$this->updated_at
      ];
