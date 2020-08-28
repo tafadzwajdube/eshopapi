@@ -142,6 +142,8 @@ class SaleController extends Controller
         $user=auth()->user()->id;
         if($user==6)
             return "SA";
+            else if($user==4)
+            return "Zim-US";
             else
             return "Zim";
 
